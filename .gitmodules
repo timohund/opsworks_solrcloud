@@ -1,0 +1,3 @@
+[submodule "solrcloud"]
+	path = solrcloud
+	url = https://github.com/timoschmidt/chef-solrcloud.git
