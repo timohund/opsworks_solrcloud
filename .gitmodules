@@ -1,9 +1,0 @@
-[submodule "solrcloud"]
-	path = solrcloud
-	url = https://github.com/timoschmidt/chef-solrcloud.git
-[submodule "java"]
-	path = java
-	url = https://github.com/agileorbit-cookbooks/java.git
-[submodule "ulimit"]
-	path = ulimit
-	url = https://github.com/bmhatfield/chef-ulimit.git
