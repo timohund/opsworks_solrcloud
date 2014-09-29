@@ -7,6 +7,3 @@
 [submodule "solrcloud"]
 	path = solrcloud
 	url = git://github.com/timoschmidt/chef-solrcloud.git
-[submodule "zookeeper"]
-	path = zookeeper
-	url = https://github.com/SimpleFinance/chef-zookeeper.git
