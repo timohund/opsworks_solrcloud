@@ -1,0 +1,9 @@
+[submodule "java"]
+	path = java
+	url = git://github.com/opscode-cookbooks/java.git
+[submodule "ulimit"]
+	path = ulimit
+	url = git://github.com/bmhatfield/chef-ulimit.git
+[submodule "solrcloud"]
+	path = solrcloud
+	url = git://github.com/timoschmidt/chef-solrcloud.git
