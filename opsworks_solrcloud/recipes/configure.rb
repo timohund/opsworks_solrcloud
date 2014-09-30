@@ -3,7 +3,7 @@ Chef::Log.info("Running opsworks solrcloud configure")
 include_recipe 'zookeeper::exhibitor'
 
 if node['opsworks_solrcloud']['zookeeper']['exibitor']['use_first_node']
-  exibitor_uri = node['opsworks']['layers']['solrcloud']['instances']['solrcloud2']['public_dns_name']
+  exibitor_uri = node['opsworks']['layers']['solrcloud']['instances']['solrcloud1']['public_dns_name']
 else
   exibitor_uri = node['opsworks_solrcloud']['zookeeper']['exibitor']['url']
 end
