@@ -2,7 +2,7 @@ include_attribute 'solrcloud'
 node.set['solrcloud']['zk_run'] =  false
 
 include_attribute 'java'
-note.set['java']['jdk_version'] = '7'
+node.set['java']['jdk_version'] = '7'
 
 #include_attribute 'exhibitor'
 #node.override['exhibitor']['install_method'] = 'download'
