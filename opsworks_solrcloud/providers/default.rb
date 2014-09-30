@@ -9,7 +9,7 @@ action :install do
 
     zk_hosts = discover_zookeepers(exibitor_uri)
 
-    if zk_nodes.nil?
+    if zk_hosts.nil?
       Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
     end
 
