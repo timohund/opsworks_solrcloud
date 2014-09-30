@@ -1,6 +1,9 @@
 include_attribute 'solrcloud'
 node.set['solrcloud']['zk_run'] =  false
 
+include_attribute 'java'
+note.set['java']['jdk_version'] = '7'
+
 #include_attribute 'exhibitor'
 #node.override['exhibitor']['install_method'] = 'download'
 #node.override['exhibitor']['mirror'] = 'http://central.maven.org/maven2/com/netflix/exhibitor/exhibitor-standalone/1.5.0/exhibitor-standalone-1.5.0.jar'
