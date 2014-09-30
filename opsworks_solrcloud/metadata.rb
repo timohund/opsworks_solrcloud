@@ -6,6 +6,7 @@ version 	"0.0.1"
 
 depends 	"deploy"
 depends		"solrcloud"
+depends     "runit"
 depends     "zookeeper"
 depends     "exhibitor"
 

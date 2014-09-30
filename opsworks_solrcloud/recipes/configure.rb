@@ -2,6 +2,7 @@ Chef::Log.info("Running opsworks solrcloud configure")
 
 include_recipe 'exhibitor::default'
 
+include_recipe 'runit'
 include_recipe 'zookeeper::service'
 include_recipe 'exhibitor::service'
 
@@ -10,3 +11,4 @@ opsworks_solrcloud "solr cloud" do
   force_exibitor_uri node['opsworks_solrcloud']['zookeeper']['exibitor']['url']
   use_first_node node['opsworks_solrcloud']['zookeeper']['exibitor']['use_first_node']
 end
+
