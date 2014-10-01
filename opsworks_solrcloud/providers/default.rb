@@ -7,16 +7,26 @@ action :install do
     end
 
     Chef::Log.info("Using #{exibitor_uri} as exibitor_uri")
-    zk_hosts = discover_zookeepers(exibitor_uri)
+    hostarray = discover_zookeepers(exibitor_uri)
 
-    if zk_hosts.nil?
+    if hostarray.nil?
       Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
     else
-      Chef::Log.info("Starting solr cloud installation with the following zookeeper #{zk_hosts}")
+
+
+    zk_hosts = ""
+
+    port = hostarray['port'];
+    servers = hostarray['servers];
+    servers_and_ports = [];
+    servers.each do |server|
+        servers_and_ports.push("#{server}:#{port}"
     end
 
-    node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = zk_hosts
+    zk_hosts = servers_and_ports.join(",")
 
+    Chef::Log.info("Using zookeeper hosts string for solr #{zk_hosts}")
+    node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = zk_hosts
 
     run_context.include_recipe 'solrcloud::tarball'
 end
