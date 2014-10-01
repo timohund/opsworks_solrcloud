@@ -16,11 +16,12 @@ action :install do
 
     zk_hosts = ""
 
-    port = hostarray['port'];
-    servers = hostarray['servers];
-    servers_and_ports = [];
+    port = hostarray['port']
+    servers = hostarray['servers']
+    servers_and_ports = []
+
     servers.each do |server|
-        servers_and_ports.push("#{server}:#{port}"
+        servers_and_ports.push("#{server}:#{port}")
     end
 
     zk_hosts = servers_and_ports.join(",")
