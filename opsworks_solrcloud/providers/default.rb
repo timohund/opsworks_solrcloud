@@ -7,12 +7,13 @@ action :install do
     end
 
     Chef::Log.info("Using #{exibitor_uri} as exibitor_uri")
-    hostarray = discover_zookeepers(exibitor_uri)
 
+    hostarray = discover_zookeepers(exibitor_uri)
     if hostarray.nil?
       Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
-    else
+    end
 
+    Chef::Log.info("Using #{hostarray} from exibitor #{hostarray.class}")
 
     zk_hosts = ""
 
