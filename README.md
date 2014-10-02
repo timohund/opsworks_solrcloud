@@ -1,7 +1,14 @@
-opsworks_solrcloud
+Solr cloud chef cookbook for Amazon AWS OpsWorks
 ==================
 
 This cookbook can be used to install SolrCloud on an aws OpsWorks stack.
+
+It uses the solrcloud cookbooks to install solr in a cloud mode with an external zookeeper service.
+By now we install zookeeper on each node and use exhibitor to discover the zookeeper instances
+with our chef cookbook
+
+
+## Usage
 
 You need to:
 
@@ -11,6 +18,8 @@ You need to:
 
 2. Create a custom layer
     * Include the git repository as custom chef recipes
-    * Map the custome recepies to the events:
+    * Map the custom recipes to the events:
         * Setup: opsworks_solrcloud::setup
         * Configure: opsworks_solrcloud::configure
+
+## Atrributes
