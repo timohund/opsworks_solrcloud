@@ -7,7 +7,6 @@ It uses the solrcloud cookbooks to install solr in a cloud mode with an external
 By now we install zookeeper on each node and use exhibitor to discover the zookeeper instances
 with our chef cookbook
 
-
 ## Usage
 
 You need to:
@@ -22,4 +21,15 @@ You need to:
         * Setup: opsworks_solrcloud::setup
         * Configure: opsworks_solrcloud::configure
 
-## Atrributes
+
+## Notes
+
+By now we use the first node in the cluster as exhibitor endpoint to
+retrieve all active zookeeper nodes. It might make sence to run zookeeper and exhibitor
+on another stack and support this in this cookbook.
+
+## Resources
+
+* https://github.com/vkhatri/chef-solrcloud.git
+* https://github.com/SimpleFinance/chef-zookeeper
+* https://github.com/SimpleFinance/chef-exhibitor
