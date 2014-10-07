@@ -8,6 +8,8 @@ include_recipe 'exhibitor::service'
 
 Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
 
+firsthost = node['opsworks']['layers']['solrcloud']['instances'].first
+
 opsworks_solrcloud "solr cloud" do
-  exhibitor_uri "http://#{node['opsworks']['layers']['solrcloud']['instances'][0]['public_dns_name']}:8080/"
+  exhibitor_uri "http://#{firsthost['public_dns_name']}:8080/"
 end

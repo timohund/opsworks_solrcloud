@@ -24,6 +24,7 @@ You need to:
         * Undeploy: opsworks_solrcloud::undeploy
 
 
+
 ## Notes
 
 By now we use the first node in the cluster as exhibitor endpoint to
