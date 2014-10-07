@@ -31,6 +31,14 @@ By now we use the first node in the cluster as exhibitor endpoint to
 retrieve all active zookeeper nodes. It might make sence to run zookeeper and exhibitor
 on another stack and support this in this cookbook.
 
+## Usage
+
+You can use
+
+http://<fistclusternode>/exhibitor/v1/ui/index.html
+
+to access the ui of the exhibitor, which is used to manage the zookeeper instances.
+
 ## Resources
 
 * https://github.com/vkhatri/chef-solrcloud.git
