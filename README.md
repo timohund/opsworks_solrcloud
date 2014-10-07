@@ -1,5 +1,14 @@
+++++++++++++++++++++++++
 Solr cloud chef cookbook for Amazon AWS OpsWorks
-==================
+++++++++++++++++++++++++
+
+:Author: AOE <dev@aoe.com>
+:Author: Timo Schmidt
+:Author: Nikolay Diaur
+:Author: Michael Klapper
+:Description: Cookbook to install solrcloud on an aws opsworks stack
+
+## Foreword
 
 This cookbook can be used to install SolrCloud on an aws OpsWorks stack.
 
@@ -12,7 +21,7 @@ with our chef cookbook
 You need to:
 
 1. Create a new stack
-    * Enable "Manage Berkshelf"
+    * Enable "Manage Berkshelf" (to enable the evaluation of Berksfile)
     * Use Berkshelf version 3.1.3
 
 2. Create a custom layer with the name "solrcloud"
@@ -22,7 +31,6 @@ You need to:
         * Configure: opsworks_solrcloud::configure
         * Deploy: opsworks_solrcloud::deploy
         * Undeploy: opsworks_solrcloud::undeploy
-
 
 
 ## Notes
@@ -35,12 +43,26 @@ on another stack and support this in this cookbook.
 
 You can use
 
-http://<fistclusternode>/exhibitor/v1/ui/index.html
+http://fistclusternode:8080/exhibitor/v1/ui/index.html
 
 to access the ui of the exhibitor, which is used to manage the zookeeper instances.
 
+When the cookbook was executed successful you should also be able to access solr cloud with one
+of the cluster hostname
+
+e.g:
+
+http://fistclusternode:8983/solr/
+
+and your elastic load balancer should could also be configured to load balance requests to this port
+to all active instances.
+
 ## Resources
 
-* https://github.com/vkhatri/chef-solrcloud.git
+Used cookbooks
+
+* https://github.com/vkhatri/chef-solrcloud
 * https://github.com/SimpleFinance/chef-zookeeper
 * https://github.com/SimpleFinance/chef-exhibitor
+* https://github.com/opscode-cookbooks/java
+* https://github.com/bmhatfield/chef-ulimit
