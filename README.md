@@ -15,11 +15,13 @@ You need to:
     * Enable "Manage Berkshelf"
     * Use Berkshelf version 3.1.3
 
-2. Create a custom layer
+2. Create a custom layer with the name "solrcloud"
     * Include the git repository as custom chef recipes
     * Map the custom recipes to the events:
         * Setup: opsworks_solrcloud::setup
         * Configure: opsworks_solrcloud::configure
+        * Deploy: opsworks_solrcloud::deploy
+        * Undeploy: opsworks_solrcloud::undeploy
 
 
 ## Notes
