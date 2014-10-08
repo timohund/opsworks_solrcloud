@@ -8,7 +8,8 @@ Solr cloud chef cookbook for Amazon AWS OpsWorks
 :Author: Michael Klapper
 :Description: Cookbook to install solrcloud on an aws opsworks stack
 
-## Foreword
+Foreword
+========================
 
 This cookbook can be used to install SolrCloud on an aws OpsWorks stack.
 
@@ -16,7 +17,8 @@ It uses the solrcloud cookbooks to install solr in a cloud mode with an external
 By now we install zookeeper on each node and use exhibitor to discover the zookeeper instances
 with our chef cookbook
 
-## Usage
+What do i need to configure?
+========================
 
 You need to:
 
@@ -33,17 +35,19 @@ You need to:
         * Undeploy: opsworks_solrcloud::undeploy
 
 
-## Notes
+Notes
+========================
 
 By now we use the first node in the cluster as exhibitor endpoint to
 retrieve all active zookeeper nodes. It might make sence to run zookeeper and exhibitor
 on another stack and support this in this cookbook.
 
-## Usage
+How can i access the solr server and zookeeper?
+========================
 
-You can use
+You can use:
 
-http://fistclusternode:8080/exhibitor/v1/ui/index.html
+http://anyclusternode:8080/exhibitor/v1/ui/index.html
 
 to access the ui of the exhibitor, which is used to manage the zookeeper instances.
 
@@ -52,12 +56,13 @@ of the cluster hostname
 
 e.g:
 
-http://fistclusternode:8983/solr/
+http://anyclusternode:8983/solr/
 
 and your elastic load balancer should could also be configured to load balance requests to this port
 to all active instances.
 
-## Resources
+Resources
+========================
 
 Used cookbooks
 
