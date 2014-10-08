@@ -1,5 +1,5 @@
 action :install do
-    sleep 60
+    sleep 120
 
     exhibitor_uri = new_resource.exhibitor_uri
 
