@@ -25,4 +25,3 @@ action :install do
     # when exhibitor and zookeeper is running
     run_context.include_recipe 'solrcloud::tarball'
 end
-
