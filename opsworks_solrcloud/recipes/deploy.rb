@@ -1,5 +1,7 @@
 Chef::Log.info("Running opsworks solrcloud deploy")
 
+include_recipe 'opsworks_solrcloud::_set_attributes'
+
 opsworks_solrcloud_discoverzk "discovering zookeeper" do
 end
 
