@@ -4,7 +4,7 @@ include_attribute 'opsworks_solrcloud'
 Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
 
 firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-node.set['opsworks_solrcloud']['exhibitor_url'] = 'firsthost['private_dns_name']}:8080'
+node.set['opsworks_solrcloud']['exhibitor_url'] = '#{firsthost['private_dns_name']}:8080'
 Chef::Log.info("Exhibitor node is #{node['opsworks_solrcloud']['exhibitor_url']}")
 
 node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
