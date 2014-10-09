@@ -1,5 +1,4 @@
-ruby_block "set attributes" do
-  block do
+action :set do
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
 
     firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
@@ -63,5 +62,4 @@ ruby_block "set attributes" do
       auto_manage_instances: '1',
       servers_spec: "#{server_specs}"
     }
-  end
 end
