@@ -22,6 +22,25 @@ action :deploy do
         # collections should only be managed on the first cluster node
         node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
+        exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
+        Chef::Log.info("Exhibitor node is #{exhibitor_url}")
+
+        hostarray = discover_zookeepers(exhibitor_url)
+        if hostarray.nil?
+          Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
+        end
+
+        port = hostarray['port']
+        servers = hostarray['servers']
+        servers_and_ports = []
+
+        servers.each do |server|
+            servers_and_ports.push("#{server}:#{port}")
+        end
+
+        Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
+        node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
+
         run_context.include_recipe "solrcloud::zkconfigsets"
 
         run_context.include_recipe "solrcloud::collections"
