@@ -18,7 +18,7 @@ action :setup do
     node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
-    exhibitor_url = "#{firsthost['private_dns_name']}:8080"
+    exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
     Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 
     hostarray = discover_zookeepers(exhibitor_url)
