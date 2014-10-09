@@ -1,7 +1,5 @@
 Chef::Log.info("Running opsworks solrcloud configure")
 
-include_recipe 'opsworks_solrcloud::setattributes'
-
 include_recipe 'exhibitor::default'
 include_recipe 'runit'
 include_recipe 'zookeeper::service'
