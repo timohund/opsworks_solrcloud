@@ -1,5 +1,5 @@
 ++++++++++++++++++++++++
-Solr cloud chef cookbook for Amazon AWS OpsWorks
+Solr cloud cookbook for AWS OpsWorks
 ++++++++++++++++++++++++
 
 :Author: AOE <dev@aoe.com>
@@ -64,10 +64,27 @@ to all active instances.
 Resources
 ========================
 
-Used cookbooks
+Used cookbooks:
 
 * https://github.com/vkhatri/chef-solrcloud
 * https://github.com/SimpleFinance/chef-zookeeper
 * https://github.com/SimpleFinance/chef-exhibitor
 * https://github.com/opscode-cookbooks/java
 * https://github.com/bmhatfield/chef-ulimit
+
+Documentation:
+
+* https://wiki.apache.org/solr/SolrCloud
+* http://www.ngdata.com/a-first-exploration-of-solrcloud/
+
+
+
+Other tools approaches to setup solr cloud
+========================
+
+Solr scale toolkit:
+
+https://github.com/LucidWorks/solr-scale-tk
+
+Cloudera CDH5:
+
