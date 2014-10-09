@@ -1,10 +1,8 @@
 
-include_attribute 'opsworks_solrcloud'
-
 Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
 
 firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-node.set['opsworks_solrcloud']['exhibitor_url'] = '#{firsthost['private_dns_name']}:8080'
+node.set['opsworks_solrcloud']['exhibitor_url'] = "#{firsthost['private_dns_name']}:8080"
 Chef::Log.info("Exhibitor node is #{node['opsworks_solrcloud']['exhibitor_url']}")
 
 node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
@@ -13,29 +11,22 @@ Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrclo
 #
 # Disable the embedded zookeeper in solr
 #
-include_attribute 'solrcloud'
 node.set['solrcloud']['zk_run'] = false
 node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
 #
 # Use version 7 of java
 #
-include_attribute 'java'
-
 node.set['java']['jdk_version'] = '7'
 
 #
 # Manage zookeeper control with exhibitor
 #
-include_attribute 'zookeeper'
-
 node.set['zookeeper']['service_style'] =  'exhibitor'
 
 #
 # Configure exibitor to use all cluster nodes a zookeeper instance nodes
 #
-include_attribute 'exhibitor'
-
 servers = []
 instances = node['opsworks']['layers']['solrcloud']['instances']
 instances.each_with_index do |instance, index|
