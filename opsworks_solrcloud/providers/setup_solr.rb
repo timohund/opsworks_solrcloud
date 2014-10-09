@@ -1,4 +1,7 @@
 action :setup do
+    Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
+    firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
+
     node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
     Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
 
