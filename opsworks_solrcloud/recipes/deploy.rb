@@ -1,5 +1,10 @@
 Chef::Log.info("Running opsworks solrcloud deploy")
 
+include_recipe 'opsworks_solrcloud::setattributes'
+
+opsworks_solrcloud_discoverzk "discovering zookeeper" do
+end
+
 # Setup configsets - node['solrcloud']['zkconfigsets']
 include_recipe "solrcloud::zkconfigsets"
 

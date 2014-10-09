@@ -1,8 +1,6 @@
+Chef::Log.info("Running opsworks solrcloud configure")
 
 include_recipe 'opsworks_solrcloud::setattributes'
-
-
-
 
 include_recipe 'exhibitor::default'
 include_recipe 'runit'
@@ -16,6 +14,11 @@ directory "/var/lib/zookeeper" do
 end
 
 include_recipe 'exhibitor::service'
+
+sleep 120
+
+opsworks_solrcloud_discoverzk "discovering zookeeper" do
+end
 
 opsworks_solrcloud_setupsolr "solr cloud" do
   exhibitor_uri "http://#{node['opsworks_solrcloud']['exhibitor_url']}/"
