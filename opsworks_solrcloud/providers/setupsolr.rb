@@ -2,8 +2,7 @@ action :install do
     sleep 120
 
     exhibitor_uri = new_resource.exhibitor_uri
-
-    Chef::Log.info("Using #{exhibitor_uri} as exhibitor_uri")
+    Chef::Log.info("Using #{exhibitor_uri} as exhibitor_url")
 
     hostarray = discover_zookeepers(exhibitor_uri)
     if hostarray.nil?

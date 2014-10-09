@@ -1,4 +1,9 @@
 
+include_recipe 'opsworks_solrcloud::setattributes'
+
+
+
+
 include_recipe 'exhibitor::default'
 include_recipe 'runit'
 include_recipe 'zookeeper::service'
@@ -12,12 +17,6 @@ end
 
 include_recipe 'exhibitor::service'
 
-Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
-
-firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-
-Chef::Log.info("First node is #{firsthost['private_dns_name']}")
-
 opsworks_solrcloud_setupsolr "solr cloud" do
-  exhibitor_uri "http://#{firsthost['private_dns_name']}:8080/"
+  exhibitor_uri "http://#{node['opsworks_solrcloud']['exhibitor_url']}/"
 end
