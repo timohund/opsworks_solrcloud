@@ -21,7 +21,7 @@ action :setup do
     exhibitor_url = "#{firsthost['private_dns_name']}:8080"
     Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 
-    hostarray = discover_zookeepers(exhibitor_uri)
+    hostarray = discover_zookeepers(exhibitor_url)
     if hostarray.nil?
       Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
     end
