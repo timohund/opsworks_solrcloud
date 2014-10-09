@@ -5,9 +5,7 @@ action :setup do
     node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
     Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
 
-    #
     # Disable the embedded zookeeper in solr
-    #
     node.set['solrcloud']['zk_run'] = false
 
     # configset updates should only be triggered on the first cluster node
@@ -20,9 +18,7 @@ action :setup do
     node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
-    firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
     exhibitor_url = "#{firsthost['private_dns_name']}:8080"
-
     Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 
     hostarray = discover_zookeepers(exhibitor_uri)

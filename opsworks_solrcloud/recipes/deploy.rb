@@ -1,8 +1,4 @@
 Chef::Log.info("Running opsworks solrcloud deploy")
 
+opsworks_solrcloud_setup_deploy_solr_configuration "Deploying solr configuration"
 
-# Setup configsets - node['solrcloud']['zkconfigsets']
-#include_recipe "solrcloud::zkconfigsets"
-
-# Setup collections - node['solrcloud']['collections']
-#include_recipe "solrcloud::collections"
