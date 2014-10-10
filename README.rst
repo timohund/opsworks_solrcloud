@@ -22,7 +22,8 @@ What do i need to configure?
 
 You need to:
 
-1. Create a new stack
+1. Create a new stack with the name "solrcloud"
+
     * Enable "Manage Berkshelf" (to enable the evaluation of Berksfile)
     * Use Berkshelf version 3.1.3
     * Add custom stack json configuration:
@@ -62,6 +63,60 @@ You need to:
             }
         }
     }
+::
+
+With the configuration above you will get a tarball from an s3 bucket, that needs to contain the solr configuration
+for each configset. The "zkconfigsets" and "collections" configuration is used by the solrcloud cookbook
+to upload the configuration to zookeeper.
+
+Example:
+
+::
+
+    {
+        "opsworks_solrcloud":
+        {
+            "zkconfigsets":
+            {
+                "source": "s3",
+                "s3":
+                {
+                    "bucket": "myreleasebucket",
+                    "remote_path": "/solr/config.tar.hz",
+                    "aws_access_key_id": "key",
+                    "aws_secret_access_key": "accesskey"
+                }
+            }
+        },
+        "solrcloud":
+        {
+            "zkconfigsets":
+            {
+                "exampleconfig":
+                {
+                    "action": "create"
+                }
+            },
+            "collections":
+            {
+                "example":
+                {
+                    "collection_config_name": "exampleconfig"
+                }
+            }
+        }
+    }
+::
+
+
+The tar.gz file that can be used with this setup needs to have the following structure:
+
+::
+
+"exampleconfig" (contains the solr configuration for the example collection)
+    "conf"
+        solrconfig.xml ...
+
 ::
 
 2. Create a custom layer with the name "solrcloud"
