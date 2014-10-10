@@ -9,6 +9,7 @@ depends		"solrcloud"
 depends     "runit"
 depends     "zookeeper"
 depends     "exhibitor"
+depends     "aws"
 
 recipe		"opsworks_solrcloud::configure", "Installs solrcloud as opsworks layer"
 recipe		"opsworks_solrcloud::setup", "Setting up solr cloud on opsworks"

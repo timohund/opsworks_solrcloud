@@ -25,6 +25,44 @@ You need to:
 1. Create a new stack
     * Enable "Manage Berkshelf" (to enable the evaluation of Berksfile)
     * Use Berkshelf version 3.1.3
+    * Add custom stack json configuration:
+
+::
+
+    {
+        "opsworks_solrcloud":
+        {
+            "zkconfigsets":
+            {
+                "source": "s3",
+                "s3":
+                {
+                    "bucket": "#configset_bucket#",
+                    "remote_path": "#configset_tarball##",
+                    "aws_access_key_id": "#access_key_id#",
+                    "aws_secret_access_key": "#access_secret#"
+                }
+            }
+        },
+        "solrcloud":
+        {
+            "zkconfigsets":
+            {
+                "#configsetname#":
+                {
+                    "action": "create"
+                }
+            },
+            "collections":
+            {
+                "#collectionname#":
+                {
+                    "collection_config_name": "#configsetname#"
+                }
+            }
+        }
+    }
+::
 
 2. Create a custom layer with the name "solrcloud"
     * Include the git repository as custom chef recipes
