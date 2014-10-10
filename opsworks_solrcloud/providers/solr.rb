@@ -111,14 +111,6 @@ action :getconfig do
       action :nothing
     end.run_action(:create)
 
-    directory node['solrcloud']['zkconfigsets_home'] do
-      owner 'root'
-      group 'root'
-      mode '0644'
-      recursive true
-      action :nothing
-    end.run_action(:create)
-
     aws_s3_file "#{zkconfigtar_tmp}solrconfig.tar.gz" do
       bucket new_resource.zkconfigsets_s3_bucket
       remote_path new_resource.zkconfigsets_s3_remote_path
