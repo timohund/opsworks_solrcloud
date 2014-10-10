@@ -7,4 +7,3 @@ end
 opsworks_solrcloud_solr "Deploying solr configuration" do
     action :deployconfig
 end
-
