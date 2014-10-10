@@ -111,7 +111,7 @@ action :getconfig do
       action :create
     end
 
-    directory {node['solrcloud']['zkconfigsets_home']} do
+    directory node['solrcloud']['zkconfigsets_home'] do
       owner 'root'
       group 'root'
       mode '0644'
