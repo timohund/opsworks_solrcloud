@@ -108,16 +108,15 @@ action :getconfig do
       owner 'root'
       group 'root'
       mode '0644'
-      action :nothing
-    end.run_action(:create)
+      action :create
+    end
 
     aws_s3_file "#{zkconfigtar_tmp}solrconfig.tar.gz" do
       bucket new_resource.zkconfigsets_s3_bucket
       remote_path new_resource.zkconfigsets_s3_remote_path
       aws_access_key_id new_resource.zkconfigsets_s3_aws_access_key_id
       aws_secret_access_key new_resource.zkconfigsets_s3_aws_secret_access_key
-      action :nothing
-    end.run_action(:download)
+    end
 
     bash "zkconfigtar" do
       cwd zkconfigtar_tmp
