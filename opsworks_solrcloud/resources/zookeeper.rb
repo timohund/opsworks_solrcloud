@@ -1,2 +1,2 @@
-actions :setup, :deployconfig
+actions :setup
 default_action :setup
