@@ -10,14 +10,14 @@ action :setup do
     # Disable the embedded zookeeper in solr
     node.set['solrcloud']['zk_run'] = false
 
-    # configset updates should only be triggered on the first cluster node
-    node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
+    # during setup no configsets should be imported
+    node.set['solrcloud']['manage_zkconfigsets'] = false
 
     # we want to put the configSets by our own
     node.set['solrcloud']['manage_zkconfigsets_source'] = false
 
-    # collections should only be managed on the first cluster node
-    node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
+    # during setup no collection should be created
+    node.set['solrcloud']['manage_collections'] = false
 
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
     exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
