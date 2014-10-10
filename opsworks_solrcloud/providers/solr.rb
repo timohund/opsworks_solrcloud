@@ -11,13 +11,13 @@ action :setup do
     node.set['solrcloud']['zk_run'] = false
 
     # during setup no configsets should be imported
-    node.set['solrcloud']['manage_zkconfigsets'] = false
+    node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
     # we want to put the configSets by our own
     node.set['solrcloud']['manage_zkconfigsets_source'] = false
 
     # during setup no collection should be created
-    node.set['solrcloud']['manage_collections'] = false
+    node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
     exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
@@ -41,7 +41,7 @@ action :setup do
 
     # we run the solrcloud::tarball recipe here because i needs to run after all other recipes
     # when exhibitor and zookeeper is running
-    run_context.include_recipe 'solrcloud::tarball'
+    run_context.include_recipe 'solrcloud::tarball_install'
 end
 
 action :deployconfig do
