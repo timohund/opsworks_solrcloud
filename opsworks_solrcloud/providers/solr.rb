@@ -44,7 +44,7 @@ action :setup do
     run_context.include_recipe 'solrcloud::tarball'
 end
 
-action :deployconfig
+action :deployconfig do
     if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
         Chef::Log.info("No first instance for layer solrcloud available skipping deployment")
     else
