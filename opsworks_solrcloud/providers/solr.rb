@@ -115,6 +115,7 @@ action :getconfig do
       owner 'root'
       group 'root'
       mode '0644'
+      recursive true
       action :create
     end
 
