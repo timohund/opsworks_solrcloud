@@ -125,6 +125,7 @@ action :getconfig do
         rm solrconfig.tar.gz
         cp -R * #{node['solrcloud']['zkconfigsets_home']}
       EOF
-    end
+      action: nothing
+    end.run_action(:run)
 
 end
