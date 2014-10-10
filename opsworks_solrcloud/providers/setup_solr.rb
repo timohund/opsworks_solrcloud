@@ -1,4 +1,6 @@
 action :setup do
+    sleep 120
+
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
     firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
 
