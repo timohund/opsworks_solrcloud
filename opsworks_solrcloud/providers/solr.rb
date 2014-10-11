@@ -93,37 +93,40 @@ action :deployconfig do
 end
 
 action :getconfig do
+    if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
+        Chef::Log.info("No first instance for layer solrcloud available skipping download of deploymentpackage")
+    else
+        run_context.include_recipe 'aws'
+        Chef::Log.info("Getting solr configuration from s3 bucket")
 
-    run_context.include_recipe 'aws'
-    Chef::Log.info("Getting solr configuration from s3 bucket")
+        zkconfigtar_tmp = "/tmp/zkconfigtar/"
 
-    zkconfigtar_tmp = "/tmp/zkconfigtar/"
+        directory zkconfigtar_tmp do
+          recursive true
+          action :delete
+        end
 
-    directory zkconfigtar_tmp do
-      recursive true
-      action :delete
-    end
+        directory zkconfigtar_tmp do
+          owner 'root'
+          group 'root'
+          mode '0644'
+          action :create
+        end
 
-    directory zkconfigtar_tmp do
-      owner 'root'
-      group 'root'
-      mode '0644'
-      action :create
-    end
+        aws_s3_file "#{zkconfigtar_tmp}solrconfig.tar.gz" do
+          bucket new_resource.zkconfigsets_s3_bucket
+          remote_path new_resource.zkconfigsets_s3_remote_path
+          aws_access_key_id new_resource.zkconfigsets_s3_aws_access_key_id
+          aws_secret_access_key new_resource.zkconfigsets_s3_aws_secret_access_key
+        end
 
-    aws_s3_file "#{zkconfigtar_tmp}solrconfig.tar.gz" do
-      bucket new_resource.zkconfigsets_s3_bucket
-      remote_path new_resource.zkconfigsets_s3_remote_path
-      aws_access_key_id new_resource.zkconfigsets_s3_aws_access_key_id
-      aws_secret_access_key new_resource.zkconfigsets_s3_aws_secret_access_key
-    end
-
-    bash "zkconfigtar" do
-      cwd zkconfigtar_tmp
-      code <<-EOF
-        tar xvfz solrconfig.tar.gz
-        rm solrconfig.tar.gz
-        cp -R * #{node['solrcloud']['zkconfigsets_home']}
-      EOF
+        bash "zkconfigtar" do
+          cwd zkconfigtar_tmp
+          code <<-EOF
+            tar xvfz solrconfig.tar.gz
+            rm solrconfig.tar.gz
+            cp -R * #{node['solrcloud']['zkconfigsets_home']}
+          EOF
+        end
     end
 end
