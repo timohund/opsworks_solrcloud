@@ -13,5 +13,7 @@ else
         opsworks_solrcloud_solr "Deploying solr configuration" do
             action :deployconfig
         end
+    else
+       Chef::Log.info("Not running on the first node, skipping deployment of solr configuration")
     end
 end
