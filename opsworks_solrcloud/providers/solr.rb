@@ -39,9 +39,8 @@ action :setup do
     Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
     node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
-    # we run the solrcloud::tarball recipe here because i needs to run after all other recipes
     # when exhibitor and zookeeper is running
-    run_context.include_recipe 'solrcloud::tarball_install'
+    run_context.include_recipe "opsworks_solrcloud::solrcloud_install"
 end
 
 action :deployconfig do
@@ -83,7 +82,7 @@ action :deployconfig do
     Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
     node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
-    run_context.include_recipe "solrcloud::tarball_deployconfig"
+    run_context.include_recipe "opsworks_solrcloud::solrcloud_deployconfig"
 end
 
 action :getconfig do

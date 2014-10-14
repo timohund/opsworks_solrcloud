@@ -40,7 +40,7 @@ action :setup do
       auto_manage_instances_settling_period_ms: '0',
       auto_manage_instances: '1',
       servers_spec: "#{server_specs}",
-      java_environment: 'export JVMFLAGS\="-Djute.maxbuffer=\50000000"'
+      java_environment: 'export JVMFLAGS\="-Djute.maxbuffer\=50000000"'
     }
 
     run_context.include_recipe 'exhibitor::default'
