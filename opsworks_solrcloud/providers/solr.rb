@@ -18,7 +18,7 @@ action :setup do
 
     # during setup no collection should be created
     node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
-    node.set['solrcloud']['java_options'] << " -Djute.maxbuffer=50000000 "
+    node.set['solrcloud']['java_options'] <<= " -Djute.maxbuffer=50000000 "
 
     Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
     exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
