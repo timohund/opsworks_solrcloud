@@ -1,12 +1,7 @@
 Chef::Log.info("Running opsworks solrcloud configure")
 
-include_recipe 'exhibitor::default'
+opsworks_solrcloud_zookeeper "Setting up zookeeper and exhibitor"
 
-include_recipe 'runit'
-include_recipe 'zookeeper::service'
-include_recipe 'exhibitor::service'
-
-opsworks_solrcloud "solr cloud" do
-  exhibitor_uri "http://#{node['opsworks']['layers']['solrcloud']['instances']['solrcloud1']['public_dns_name']}:8080/"
+opsworks_solrcloud_solr "Setting up solr cloud" do
+  action :setup
 end
-
