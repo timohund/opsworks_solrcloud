@@ -23,9 +23,9 @@ require 'json'
 
 require 'tmpdir'
 
-temp_d        = Dir.tmpdir
-tarball_file  = File.join(temp_d, "solr-#{node['solrcloud']['version']}.tgz")
-tarball_dir   = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
+temp_d = Dir.tmpdir
+tarball_file = File.join(temp_d, "solr-#{node['solrcloud']['version']}.tgz")
+tarball_dir = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
 
 # Stop Solr Service if running for Version Upgrade
 service "solr" do
@@ -42,8 +42,8 @@ end
 
 # Extract and Setup Solr Source directories
 bash "extract_solr_tarball" do
-  user  "root"
-  cwd   "/tmp"
+  user "root"
+  cwd "/tmp"
 
   code <<-EOS
     tar xzf #{tarball_file}
@@ -52,73 +52,73 @@ bash "extract_solr_tarball" do
     chmod #{node['solrcloud']['dir_mode']} #{node['solrcloud']['source_dir']}
   EOS
 
-  not_if  { File.exists?(node['solrcloud']['source_dir']) }
+  not_if { File.exists?(node['solrcloud']['source_dir']) }
   creates "#{node['solrcloud']['install_dir']}/dist/solr-#{node['solrcloud']['version']}.war"
-  action  :run
+  action :run
 end
 
 # Link Solr install_dir to Current source_dir
 link node['solrcloud']['install_dir'] do
-  to      node['solrcloud']['source_dir']
-  owner   node['solrcloud']['user']
-  group   node['solrcloud']['group']
-  action  :create
+  to node['solrcloud']['source_dir']
+  owner node['solrcloud']['user']
+  group node['solrcloud']['group']
+  action :create
 end
 
 # Link Jetty lib dir
 link File.join(node['solrcloud']['install_dir'], 'lib') do
-  to      File.join(node['solrcloud']['install_dir'],'example','lib')
-  owner   node['solrcloud']['user']
-  group   node['solrcloud']['group']
+  to File.join(node['solrcloud']['install_dir'], 'example', 'lib')
+  owner node['solrcloud']['user']
+  group node['solrcloud']['group']
   action :create
 end
 
 # Link Solr start.jar
 link File.join(node['solrcloud']['install_dir'], 'start.jar') do
-  to      File.join(node['solrcloud']['install_dir'],'example','start.jar')
-  owner   node['solrcloud']['user']
-  group   node['solrcloud']['group']
+  to File.join(node['solrcloud']['install_dir'], 'example', 'start.jar')
+  owner node['solrcloud']['user']
+  group node['solrcloud']['group']
   action :create
 end
 
 # Setup Directories for Solr
-[ node['solrcloud']['log_dir'],
-  node['solrcloud']['pid_dir'],
-  node['solrcloud']['data_dir'],
-  node['solrcloud']['solr_home'],
-  node['solrcloud']['shared_lib'],
-  node['solrcloud']['config_sets'],
-  node['solrcloud']['zkconfigsets_home'],
-  File.join(node['solrcloud']['install_dir'], 'etc'),
-  File.join(node['solrcloud']['install_dir'], 'resources'),
-  File.join(node['solrcloud']['install_dir'], 'webapps'),
-  File.join(node['solrcloud']['install_dir'], 'contexts')
-].each {|dir|
+[node['solrcloud']['log_dir'],
+ node['solrcloud']['pid_dir'],
+ node['solrcloud']['data_dir'],
+ node['solrcloud']['solr_home'],
+ node['solrcloud']['shared_lib'],
+ node['solrcloud']['config_sets'],
+ node['solrcloud']['zkconfigsets_home'],
+ File.join(node['solrcloud']['install_dir'], 'etc'),
+ File.join(node['solrcloud']['install_dir'], 'resources'),
+ File.join(node['solrcloud']['install_dir'], 'webapps'),
+ File.join(node['solrcloud']['install_dir'], 'contexts')
+].each { |dir|
   directory dir do
-    owner     node['solrcloud']['user']
-    group     node['solrcloud']['group']
-    mode      0755
+    owner node['solrcloud']['user']
+    group node['solrcloud']['group']
+    mode 0755
     recursive true
-    action    :create
+    action :create
   end
 }
 
 # Likely to be removed or changed in future
 directory node['solrcloud']['cores_home'] do
-  owner     node['solrcloud']['user']
-  group     node['solrcloud']['group']
-  mode      0755
+  owner node['solrcloud']['user']
+  group node['solrcloud']['group']
+  mode 0755
   recursive true
-  action    :create
+  action :create
   only_if { node['solrcloud']['cores_home'] and node['solrcloud']['cores_home'] != node['solrcloud']['solr_home'] }
 end
 
 directory node['solrcloud']['zk_run_data_dir'] do
-  owner     node['solrcloud']['user']
-  group     node['solrcloud']['group']
-  mode      0755
+  owner node['solrcloud']['user']
+  group node['solrcloud']['group']
+  mode 0755
   recursive true
-  action    :create
+  action :create
   only_if { node['solrcloud']['zk_run'] }
 end
 
@@ -147,15 +147,15 @@ include_recipe "solrcloud::jetty"
 include_recipe "solrcloud::zkcli"
 
 service "solr" do
-  supports      :start => true, :stop => true, :restart => true, :status => true
-  service_name  node['solrcloud']['service_name']
-  action        [:enable, :start]
-  notifies      :run, "ruby_block[wait_start_up]", :immediately
+  supports :start => true, :stop => true, :restart => true, :status => true
+  service_name node['solrcloud']['service_name']
+  action [:enable, :start]
+  notifies :run, "ruby_block[wait_start_up]", :immediately
 end
 
 # Waiting for Service
 ruby_block "wait_start_up" do
-  block  do
+  block do
     sleep node['solrcloud']['service_start_wait']
   end
   action :nothing
