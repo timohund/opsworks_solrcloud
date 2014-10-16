@@ -17,6 +17,9 @@ action :setup do
   # we want to put the configSets by our own
   node.set['solrcloud']['manage_zkconfigsets_source'] = false
 
+  # force the upload from the first node
+  node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
+
   # during setup no collection should be created
   node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
@@ -64,6 +67,9 @@ action :deployconfig do
 
   # we want to put the configSets by our own
   node.set['solrcloud']['manage_zkconfigsets_source'] = false
+
+  # force the upload from the first node
+  node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
   # collections should only be managed on the first cluster node
   node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']

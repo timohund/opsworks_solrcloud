@@ -19,6 +19,7 @@ node['solrcloud']['zkconfigsets'].each { |configset_name, options|
     zkconfigsets_cookbook node['solrcloud']['zkconfigsets_cookbook']
     manage_zkconfigsets node['solrcloud']['manage_zkconfigsets']
     solr_zkcli node['solrcloud']['zookeeper']['solr_zkcli']
+    force_upload  node['solrcloud']['force_zkconfigsets_upload']
     action options[:action]
   end
 }
