@@ -11,6 +11,12 @@ action :setup do
   node.set['zookeeper']['service_style'] = 'exhibitor'
 
   #
+  # Set the install dir
+  #
+  node.set['zookeeper']['install_dir'] = '/usr/local/zookeeper'
+
+
+  #
   # Configure exibitor to use all cluster nodes a zookeeper instance nodes
   #
   servers = []
@@ -24,6 +30,11 @@ action :setup do
   server_specs = servers.join(",");
 
   Chef::Log.info("Using #{server_specs} as exhibitor server_specs")
+
+  node.set['exhibitor']['snapshot_dir'] = '/opt/zookeeper/data/snapshots/'
+  node.set['exhibitor']['transaction_dir'] = '/opt/zookeeper/data/transactions'
+  node.set['exhibitor']['log_index_dir'] = '/opt/zookeeper/data/logindex'
+  node.set['exhibitor']['install_dir'] = '/usr/local/exhibitor'
 
   node.set['exhibitor']['config'] = {
       cleanup_period_ms: 5 * 60 * 1000,
