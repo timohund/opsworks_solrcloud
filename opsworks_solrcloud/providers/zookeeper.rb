@@ -36,6 +36,13 @@ action :setup do
   node.set['exhibitor']['log_index_dir'] = '/opt/zookeeper/data/logindex'
   node.set['exhibitor']['install_dir'] = '/usr/local/exhibitor'
 
+  node.set['exhibitor']['cli'] = {
+     port: '8080',
+     hostname: node[:ipaddress],
+     configtype: 'file',
+     defaultconfig: "#{node[:exhibitor][:install_dir]}/exhibitor.properties"
+  }
+
   node.set['exhibitor']['config'] = {
       cleanup_period_ms: 5 * 60 * 1000,
       check_ms: '30000',
