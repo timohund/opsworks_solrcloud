@@ -171,7 +171,6 @@ Documentation:
 * http://www.ngdata.com/a-first-exploration-of-solrcloud/
 
 
-
 Other tools approaches to setup solr cloud
 ========================
 
@@ -181,3 +180,4 @@ https://github.com/LucidWorks/solr-scale-tk
 
 Cloudera CDH5:
 
+http://www.cloudera.com/content/cloudera/en/downloads/cdh/cdh-5-2-0.html

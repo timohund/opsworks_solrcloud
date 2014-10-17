@@ -1,4 +1,4 @@
-actions :setup, :deployconfig, :getconfig
+actions :setup, :deployconfig, :getconfig, :restart
 default_action :setup
 
 attribute :zkconfigsets_source, :kind_of => String, :default => node['opsworks_solrcloud']['zkconfigsets']['source']
