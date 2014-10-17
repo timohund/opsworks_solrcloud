@@ -54,7 +54,7 @@ action :setup do
       backup_extra: '',
       observer_threshold: '0',
       election_port: '3888',
-      zoo_cfg_extra: 'tickTime\=3000&initLimit\=10&syncLimit\=10',
+      zoo_cfg_extra: 'tickTime\=3000&initLimit\=30&syncLimit\=30',
       auto_manage_instances_settling_period_ms: '0',
       auto_manage_instances: '1',
       servers_spec: "#{server_specs}",
