@@ -130,3 +130,9 @@ action :getconfig do
     EOF
   end
 end
+
+action :restart do
+  service "solr" do
+    action :restart
+  end
+end

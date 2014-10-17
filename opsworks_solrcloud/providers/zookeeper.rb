@@ -74,3 +74,9 @@ action :setup do
 
   run_context.include_recipe 'exhibitor::service'
 end
+
+action :restart do
+  service "exhibitor" do
+    action :restart
+  end
+end
