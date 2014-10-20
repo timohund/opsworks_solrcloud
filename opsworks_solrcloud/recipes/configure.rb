@@ -1,4 +1,4 @@
-Chef::Log.info("Running opsworks solrcloud configure")
+Chef::Log.info("Running opsworks solrcloud configure in activity #{node['opsworks']['activity']}")
 
 opsworks_solrcloud_zookeeper "Setting up zookeeper and exhibitor" do
    action [ :setup, :restart ]
