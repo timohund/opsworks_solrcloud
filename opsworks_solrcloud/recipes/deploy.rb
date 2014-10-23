@@ -1,4 +1,4 @@
-Chef::Log.info("Running opsworks solrcloud deploy")
+Chef::Log.info("Running opsworks solrcloud deploy in activity #{node['opsworks']['activity']}")
 
 if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
   Chef::Log.info("No first instance for layer solrcloud available skipping deployment")
