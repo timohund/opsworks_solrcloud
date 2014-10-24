@@ -94,6 +94,7 @@ action :deployconfig do
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
   Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
+  Chef::Log.info("Using solr core admin path #{node['solrcloud']['solr_config']['admin_path']}")
 
   run_context.include_recipe "opsworks_solrcloud::solrcloud_deployconfig"
 end
