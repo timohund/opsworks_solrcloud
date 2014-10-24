@@ -1,0 +1,1 @@
+opsworks_solrcloud cookbook
