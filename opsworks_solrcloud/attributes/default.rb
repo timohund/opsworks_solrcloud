@@ -59,9 +59,9 @@ node.set['exhibitor']['install_dir'] = '/usr/local/exhibitor'
 
 node.set['exhibitor']['cli'] = {
   port: '8080',
-  hostname: node[:ipaddress],
+  hostname: node['ipaddress'],
   configtype: 'file',
-  defaultconfig: "#{node[:exhibitor][:install_dir]}/exhibitor.properties"
+  defaultconfig: "#{node['exhibitor']['install_dir']}/exhibitor.properties"
 }
 
 ##########################################
