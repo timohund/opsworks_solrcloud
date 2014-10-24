@@ -8,14 +8,8 @@ action :setup do
   node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
   Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
 
-  # Disable the embedded zookeeper in solr
-  node.set['solrcloud']['zk_run'] = false
-
   # during setup no configsets should be imported
   node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # we want to put the configSets by our own
-  node.set['solrcloud']['manage_zkconfigsets_source'] = false
 
   # force the upload from the first node
   node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
@@ -59,14 +53,8 @@ action :deployconfig do
   node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
   Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
 
-  # Disable the embedded zookeeper in solr
-  node.set['solrcloud']['zk_run'] = false
-
   # configset updates should only be triggered on the first cluster node
   node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # we want to put the configSets by our own
-  node.set['solrcloud']['manage_zkconfigsets_source'] = false
 
   # force the upload from the first node
   node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
