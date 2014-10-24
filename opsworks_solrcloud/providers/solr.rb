@@ -1,59 +1,23 @@
+
+def initialize(*args)
+  super
+  @resource_name = :github
+  @action = :upload
+end
+
 action :setup do
   #@todo find another way to wait for running zookeeper before installing solr cloud
   sleep 120
 
-  Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
-  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
+  set_zookeeper_hosts
 
-  Chef::Log.info("JVM options #{node['solrcloud']['java_options']}")
-
-  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
-  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
-
-  hostarray = discover_zookeepers(exhibitor_url)
-  if hostarray.nil?
-    Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
-  end
-
-  port = hostarray['port']
-  servers = hostarray['servers']
-  servers_and_ports = []
-
-  servers.each do |server|
-    servers_and_ports.push("#{server}:#{port}")
-  end
-
-  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
-  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
-
-  # when exhibitor and zookeeper is running
   run_context.include_recipe "opsworks_solrcloud::solrcloud_install"
 end
 
 action :deployconfig do
+  set_zookeeper_hosts
+
   Chef::Log.info("Starting deployment of solr configuration")
-
-  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-
-  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
-  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
-
-  hostarray = discover_zookeepers(exhibitor_url)
-  if hostarray.nil?
-    Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
-  end
-
-  port = hostarray['port']
-  servers = hostarray['servers']
-  servers_and_ports = []
-
-  servers.each do |server|
-    servers_and_ports.push("#{server}:#{port}")
-  end
-
-  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
-  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
-
   Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
   Chef::Log.info("Using solr core admin path #{node['solrcloud']['solr_config']['admin_path']}")
 
@@ -99,4 +63,28 @@ action :restart do
   service "solr" do
     action :restart
   end
+end
+
+private
+def setzkhosts
+  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
+
+  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
+  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
+
+  hostarray = discover_zookeepers(exhibitor_url)
+  if hostarray.nil?
+    Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
+  end
+
+  port = hostarray['port']
+  servers = hostarray['servers']
+  servers_and_ports = []
+
+  servers.each do |server|
+    servers_and_ports.push("#{server}:#{port}")
+  end
+
+  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
+  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 end
