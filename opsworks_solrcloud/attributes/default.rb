@@ -68,7 +68,7 @@ node.set['exhibitor']['cli'] = {
 # Set static node attributes for zookeper
 ##########################################
 
-include_attribute 'zookeper'
+include_attribute 'zookeeper'
 
 node.set['zookeeper']['service_style'] = 'exhibitor'
 node.set['zookeeper']['install_dir'] = '/usr/local/zookeeper'
