@@ -12,6 +12,8 @@ action :setup do
   set_zookeeper_hosts
 
   run_context.include_recipe "opsworks_solrcloud::solrcloud_install"
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :deployconfig do
@@ -22,6 +24,8 @@ action :deployconfig do
   Chef::Log.info("Using solr core admin path #{node['solrcloud']['solr_config']['admin_path']}")
 
   run_context.include_recipe "opsworks_solrcloud::solrcloud_deployconfig"
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :getconfig do
@@ -57,12 +61,16 @@ action :getconfig do
          cp -R * #{node['solrcloud']['zkconfigsets_home']}
     EOF
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :restart do
   service "solr" do
     action :restart
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 private

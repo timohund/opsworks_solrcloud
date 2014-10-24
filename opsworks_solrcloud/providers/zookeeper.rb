@@ -44,10 +44,14 @@ action :setup do
   end
 
   run_context.include_recipe 'exhibitor::service'
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :restart do
   service "exhibitor" do
     action :restart
   end
+
+  new_resource.updated_by_last_action(true)
 end
