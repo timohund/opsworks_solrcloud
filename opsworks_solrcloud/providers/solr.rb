@@ -93,6 +93,8 @@ action :deployconfig do
   Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
+  Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
+
   run_context.include_recipe "opsworks_solrcloud::solrcloud_deployconfig"
 end
 
