@@ -15,7 +15,6 @@ action :setup do
   #
   node.set['zookeeper']['install_dir'] = '/usr/local/zookeeper'
 
-
   #
   # Configure exibitor to use all cluster nodes a zookeeper instance nodes
   #

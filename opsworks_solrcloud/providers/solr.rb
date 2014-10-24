@@ -5,21 +5,6 @@ action :setup do
   Chef::Log.info("First node is #{node['opsworks']['layers']['solrcloud']['instances'].first}")
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
 
-  node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
-  Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
-
-  # during setup no configsets should be imported
-  node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # force the upload from the first node
-  node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # during setup no collection should be created
-  node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-
-  # we increase the max buffer size to allow nodes in zookeeper larger then one megabyte
-  node.set['solrcloud']['java_options'] = (node['solrcloud']['java_options'] || []) + [" -Djute.maxbuffer=50000000 "]
   Chef::Log.info("JVM options #{node['solrcloud']['java_options']}")
 
   exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
@@ -49,18 +34,6 @@ action :deployconfig do
   Chef::Log.info("Starting deployment of solr configuration")
 
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-
-  node.set['opsworks_solrcloud']['is_first_cluster_node'] = firsthost['private_ip'] == node['ipaddress']
-  Chef::Log.info("Is this the first node in the cluster?: #{node['opsworks_solrcloud']['is_first_cluster_node']}")
-
-  # configset updates should only be triggered on the first cluster node
-  node.set['solrcloud']['manage_zkconfigsets'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # force the upload from the first node
-  node.set['solrcloud']['force_zkconfigsets_upload'] = node['opsworks_solrcloud']['is_first_cluster_node']
-
-  # collections should only be managed on the first cluster node
-  node.set['solrcloud']['manage_collections'] = node['opsworks_solrcloud']['is_first_cluster_node']
 
   exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
   Chef::Log.info("Exhibitor node is #{exhibitor_url}")
