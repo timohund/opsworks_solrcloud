@@ -23,6 +23,9 @@ node.set['solrcloud']['manage_collections']         = false
 
 # on the first cluster node we manage collections and config sets
 if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
+  Chef::Log.info("Recipe not executed on first cluster node not managing zookeeper config and collections")
+else
+  Chef::Log.info("Recipe executed on first node set attributes to manage zookeeper config and collections")
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
   is_first_cluster_node = firsthost['private_ip'] == node['ipaddress']
 
