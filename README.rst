@@ -7,6 +7,7 @@ Solr cloud cookbook for AWS OpsWorks
 :Author: Nikolay Diaur
 :Author: Michael Klapper
 :Description: Cookbook to install solrcloud on an aws opsworks stack
+:Build status: |buildStatusIcon|
 
 Foreword
 ========================
@@ -181,3 +182,8 @@ https://github.com/LucidWorks/solr-scale-tk
 Cloudera CDH5:
 
 http://www.cloudera.com/content/cloudera/en/downloads/cdh/cdh-5-2-0.html
+
+
+.. |buildStatusIcon| image:: https://secure.travis-ci.org/timoschmidt/opsworks_solrcloud.png?branch=master
+:alt: Build Status
+   :target: http://travis-ci.org/timoschmidt/opsworks_solrcloud
