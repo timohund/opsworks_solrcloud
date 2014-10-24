@@ -37,6 +37,7 @@ node['solrcloud']['collections'].each { |collection_name, options|
     router_name options[:router_name]
     router_field options[:router_field]
     use_ssl options[:use_ssl]
+    context_path node['solrcloud']['jetty_config']['context']['path']
     zkhost node['solrcloud']['solr_config']['solrcloud']['zk_host'].first
     zkcli node['solrcloud']['zookeeper']['zkcli']
     port node['solrcloud']['port']
