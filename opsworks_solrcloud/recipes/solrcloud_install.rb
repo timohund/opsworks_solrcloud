@@ -132,7 +132,7 @@ end
 ruby_block 'require_pam_limits.so' do
   block do
     fe = Chef::Util::FileEdit.new("/etc/pam.d/su")
-    fe.search_file_replace_line(/# session    required   pam_limits.so/, "session    required   pam_limits.so")
+    fe.search_file_replace_line(/# session    required   pam_limits.so/, 'session    required   pam_limits.so')
     fe.write_file
   end
 end
@@ -154,7 +154,7 @@ service "solr" do
 end
 
 # Waiting for Service
-ruby_block "wait_start_up" do
+ruby_block 'wait_start_up' do
   block do
     sleep node['solrcloud']['service_start_wait']
   end
