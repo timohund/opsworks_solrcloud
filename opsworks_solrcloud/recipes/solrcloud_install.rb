@@ -28,7 +28,7 @@ tarball_file = File.join(temp_d, "solr-#{node['solrcloud']['version']}.tgz")
 tarball_dir = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
 
 # Stop Solr Service if running for Version Upgrade
-service "solr" do
+service 'solr' do
   service_name node['solrcloud']['service_name']
   action :stop
   only_if { File.exists? "/etc/init.d/#{node['solrcloud']['service_name']}" and not File.exists?(node['solrcloud']['source_dir']) }
@@ -41,7 +41,7 @@ remote_file tarball_file do
 end
 
 # Extract and Setup Solr Source directories
-bash "extract_solr_tarball" do
+bash 'extract_solr_tarball' do
   user "root"
   cwd "/tmp"
 
@@ -129,7 +129,7 @@ user_ulimit node['solrcloud']['user'] do
   memory_limit node['solrcloud']['limits']['memlock']
 end
 
-ruby_block "require_pam_limits.so" do
+ruby_block 'require_pam_limits.so' do
   block do
     fe = Chef::Util::FileEdit.new("/etc/pam.d/su")
     fe.search_file_replace_line(/# session    required   pam_limits.so/, "session    required   pam_limits.so")
@@ -138,19 +138,19 @@ ruby_block "require_pam_limits.so" do
 end
 
 # Solr Config
-include_recipe "solrcloud::config"
+include_recipe 'solrcloud::config'
 
 # Jetty Config
-include_recipe "solrcloud::jetty"
+include_recipe 'solrcloud::jetty'
 
 # Zookeeper Client Setup
-include_recipe "solrcloud::zkcli"
+include_recipe 'solrcloud::zkcli'
 
 service "solr" do
   supports :start => true, :stop => true, :restart => true, :status => true
   service_name node['solrcloud']['service_name']
   action [:enable, :start]
-  notifies :run, "ruby_block[wait_start_up]", :immediately
+  notifies :run, 'ruby_block[wait_start_up]', :immediately
 end
 
 # Waiting for Service

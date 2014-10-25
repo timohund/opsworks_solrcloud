@@ -1,3 +1,3 @@
-opsworks_solrcloud_solr "Restarting solr" do
-   action [ :restart ]
+opsworks_solrcloud_solr 'Restarting solr' do
+  action [:restart]
 end
