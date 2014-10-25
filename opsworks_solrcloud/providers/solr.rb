@@ -1,5 +1,3 @@
-include Zookeeper
-
 action :setup do
   #@todo find another way to wait for running zookeeper before installing solr cloud
   sleep 120
