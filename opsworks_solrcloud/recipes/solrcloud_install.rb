@@ -146,7 +146,7 @@ include_recipe 'solrcloud::jetty'
 # Zookeeper Client Setup
 include_recipe 'solrcloud::zkcli'
 
-service "solr" do
+service 'solr' do
   supports :start => true, :stop => true, :restart => true, :status => true
   service_name node['solrcloud']['service_name']
   action [:enable, :start]
