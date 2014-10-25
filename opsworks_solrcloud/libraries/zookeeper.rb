@@ -1,5 +1,5 @@
 module Zookeeper
-  module Helper
+  class Helper
       def self.get_server_array(exhibitor_url)
           Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 

@@ -31,13 +31,13 @@ tarball_dir = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
 service 'solr' do
   service_name node['solrcloud']['service_name']
   action :stop
-  only_if { File.exists? "/etc/init.d/#{node['solrcloud']['service_name']}" and not File.exists?(node['solrcloud']['source_dir']) }
+  only_if { File.exist? "/etc/init.d/#{node['solrcloud']['service_name']}" and not File.exist?(node['solrcloud']['source_dir']) }
 end
 
 # Solr Version Package File
 remote_file tarball_file do
   source node['solrcloud']['tarball']['url']
-  not_if { File.exists?("#{node['solrcloud']['source_dir']}/dist/solr-#{node['solrcloud']['version']}.war") }
+  not_if { File.exist?("#{node['solrcloud']['source_dir']}/dist/solr-#{node['solrcloud']['version']}.war") }
 end
 
 # Extract and Setup Solr Source directories
@@ -52,7 +52,7 @@ bash 'extract_solr_tarball' do
     chmod #{node['solrcloud']['dir_mode']} #{node['solrcloud']['source_dir']}
   EOS
 
-  not_if { File.exists?(node['solrcloud']['source_dir']) }
+  not_if { File.exist?(node['solrcloud']['source_dir']) }
   creates "#{node['solrcloud']['install_dir']}/dist/solr-#{node['solrcloud']['version']}.war"
   action :run
 end
