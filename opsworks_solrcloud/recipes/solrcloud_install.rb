@@ -3,8 +3,8 @@
 #
 
 # Setup Solr Service User
-include_recipe "solrcloud::user"
-include_recipe "solrcloud::java"
+include_recipe 'solrcloud::user'
+include_recipe 'solrcloud::java'
 
 # Require for zk gem
 %w(patch gcc).each do |pkg|
@@ -13,7 +13,7 @@ include_recipe "solrcloud::java"
   end.run_action(:install)
 end
 
-chef_gem "zk" do
+chef_gem 'zk' do
   action :nothing
 end.run_action(:install)
 
@@ -131,7 +131,7 @@ end
 
 ruby_block 'require_pam_limits.so' do
   block do
-    fe = Chef::Util::FileEdit.new("/etc/pam.d/su")
+    fe = Chef::Util::FileEdit.new('/etc/pam.d/su')
     fe.search_file_replace_line(/# session    required   pam_limits.so/, 'session    required   pam_limits.so')
     fe.write_file
   end

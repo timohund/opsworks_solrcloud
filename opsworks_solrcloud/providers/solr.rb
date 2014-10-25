@@ -13,7 +13,7 @@ action :setup do
 
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
-  run_context.include_recipe "opsworks_solrcloud::solrcloud_install"
+  run_context.include_recipe 'opsworks_solrcloud::solrcloud_install'
   new_resource.updated_by_last_action(true)
 end
 
@@ -38,9 +38,9 @@ end
 
 action :getconfig do
   run_context.include_recipe 'aws'
-  Chef::Log.info("Getting solr configuration from s3 bucket")
+  Chef::Log.info('Getting solr configuration from s3 bucket')
 
-  zkconfigtar_tmp = "/tmp/zkconfigtar/"
+  zkconfigtar_tmp = '/tmp/zkconfigtar/'
 
   directory zkconfigtar_tmp do
     recursive true

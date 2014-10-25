@@ -36,7 +36,7 @@ action :setup do
   run_context.include_recipe 'runit'
   run_context.include_recipe 'zookeeper::service'
 
-  directory "/var/lib/zookeeper" do
+  directory '/var/lib/zookeeper' do
     group 'zookeeper'
     owner 'zookeeper'
     mode 0775
@@ -49,7 +49,7 @@ action :setup do
 end
 
 action :restart do
-  service "exhibitor" do
+  service 'exhibitor' do
     action :restart
   end
 

@@ -1,7 +1,7 @@
 Chef::Log.info("Running opsworks solrcloud deploy in activity #{node['opsworks']['activity']}")
 
 if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
-  Chef::Log.info("No first instance for layer solrcloud available skipping deployment")
+  Chef::Log.info('No first instance for layer solrcloud available skipping deployment')
 else
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
   #only run on the first cluster node
@@ -14,6 +14,6 @@ else
       action :deployconfig
     end
   else
-    Chef::Log.info("Not running on the first node, skipping deployment of solr configuration")
+    Chef::Log.info('Not running on the first node, skipping deployment of solr configuration')
   end
 end
