@@ -1,4 +1,10 @@
+#
+# Helper module to retrieve information from the zookeeper
+# environment
+#
+
 module Zookeeper
+  # OpsworksSolrcloud Zookeeper Helper
   class Helper
     def self.get_server_array(exhibitor_url)
       Chef::Log.info("Exhibitor node is #{exhibitor_url}")
