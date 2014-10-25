@@ -31,7 +31,7 @@ action :deployconfig do
   Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
   Chef::Log.info("Using solr core admin path #{node['solrcloud']['solr_config']['admin_path']}")
 
-  run_context.include_recipe "opsworks_solrcloud::solrcloud_deployconfig"
+  run_context.include_recipe 'opsworks_solrcloud::solrcloud_deployconfig'
 
   new_resource.updated_by_last_action(true)
 end
@@ -61,7 +61,7 @@ action :getconfig do
     aws_secret_access_key new_resource.zkconfigsets_s3_aws_secret_access_key
   end
 
-  bash "zkconfigtar" do
+  bash 'zkconfigtar' do
     cwd zkconfigtar_tmp
     code <<-EOF
          tar xvfz solrconfig.tar.gz
@@ -74,7 +74,7 @@ action :getconfig do
 end
 
 action :restart do
-  service "solr" do
+  service 'solr' do
     action :restart
   end
 

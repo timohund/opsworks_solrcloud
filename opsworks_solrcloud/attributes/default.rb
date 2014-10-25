@@ -23,7 +23,7 @@ node.set['solrcloud']['solr_config']['solrcloud']['host_context'] = '/'
 node.set['solrcloud']['zk_run'] = false
 
 # allow larger config files in zookeeper
-node.set['solrcloud']['java_options'] = (node['solrcloud']['java_options'] || []) + [" -Djute.maxbuffer=50000000 "]
+node.set['solrcloud']['java_options'] = (node['solrcloud']['java_options'] || []) + [' -Djute.maxbuffer=50000000 ']
 
 # we want to put the configSets by our own
 node.set['solrcloud']['manage_zkconfigsets_source'] = false
