@@ -33,9 +33,9 @@ node.set['solrcloud']['manage_collections'] = false
 
 # on the first cluster node we manage collections and config sets
 if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
-  Chef::Log.info("Recipe not executed on first cluster node not managing zookeeper config and collections")
+  Chef::Log.info('Recipe not executed on first cluster node not managing zookeeper config and collections')
 else
-  Chef::Log.info("Recipe executed on first node set attributes to manage zookeeper config and collections")
+  Chef::Log.info('Recipe executed on first node set attributes to manage zookeeper config and collections')
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
   is_first_cluster_node = firsthost['private_ip'] == node['ipaddress']
 
@@ -58,10 +58,10 @@ node.set['exhibitor']['log_index_dir'] = '/opt/zookeeper/data/logindex'
 node.set['exhibitor']['install_dir'] = '/usr/local/exhibitor'
 
 node.set['exhibitor']['cli'] = {
-    port: '8080',
-    hostname: node['ipaddress'],
-    configtype: 'file',
-    defaultconfig: "#{node['exhibitor']['install_dir']}/exhibitor.properties"
+  port: '8080',
+  hostname: node['ipaddress'],
+  configtype: 'file',
+  defaultconfig: "#{node['exhibitor']['install_dir']}/exhibitor.properties"
 }
 
 ##########################################
@@ -80,4 +80,3 @@ node.set['zookeeper']['install_dir'] = '/usr/local/zookeeper'
 include_attribute 'java'
 
 node.set['java']['jdk_version'] = '7'
-
