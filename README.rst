@@ -60,6 +60,7 @@ You need to:
                 "#collectionname#":
                 {
                     "collection_config_name": "#configsetname#"
+                    "name": "#collectionname#"
                 }
             }
         }
