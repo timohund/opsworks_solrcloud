@@ -1,17 +1,31 @@
+include ZookeeperHelper
 
 action :setup do
   #@todo find another way to wait for running zookeeper before installing solr cloud
   sleep 120
 
-  set_zookeeper_hosts
+  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
+  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
+  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
+
+  servers_and_ports = ZookeeperHelper.get_server_array(exhibitor_url)
+  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
+
+  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
   run_context.include_recipe "opsworks_solrcloud::solrcloud_install"
-
   new_resource.updated_by_last_action(true)
 end
 
 action :deployconfig do
-  set_zookeeper_hosts
+  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
+  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
+  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
+
+  servers_and_ports = ZookeeperHelper.get_server_array(exhibitor_url)
+  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
+
+  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
   Chef::Log.info("Starting deployment of solr configuration")
   Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
@@ -65,28 +79,4 @@ action :restart do
   end
 
   new_resource.updated_by_last_action(true)
-end
-
-private
-def setzkhosts
-  firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-
-  exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
-  Chef::Log.info("Exhibitor node is #{exhibitor_url}")
-
-  hostarray = discover_zookeepers(exhibitor_url)
-  if hostarray.nil?
-    Chef::Application.fatal!('Failed to discover zookeepers. Cannot continue')
-  end
-
-  port = hostarray['port']
-  servers = hostarray['servers']
-  servers_and_ports = []
-
-  servers.each do |server|
-    servers_and_ports.push("#{server}:#{port}")
-  end
-
-  Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
-  node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 end
