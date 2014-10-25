@@ -1,4 +1,4 @@
-chef_gem "zk" do
+chef_gem 'zk' do
   action :nothing
 end.run_action(:install)
 
@@ -9,7 +9,7 @@ require 'json'
 #
 # see solrcloud::zkconfigsets
 #
-node['solrcloud']['zkconfigsets'].each { |configset_name, options|
+node['solrcloud']['zkconfigsets'].each do |configset_name, options|
   solrcloud_zkconfigset configset_name do
     user node['solrcloud']['user']
     group node['solrcloud']['group']
@@ -22,12 +22,12 @@ node['solrcloud']['zkconfigsets'].each { |configset_name, options|
     force_upload node['solrcloud']['force_zkconfigsets_upload']
     action options[:action]
   end
-}
+end
 
 #
 # see solrcloud::collections
 #
-node['solrcloud']['collections'].each { |collection_name, options|
+node['solrcloud']['collections'].each do |collection_name, options|
   collection_name = options[:name] if options[:name]
   solrcloud_collection collection_name do
     num_shards options[:num_shards]
@@ -48,4 +48,4 @@ node['solrcloud']['collections'].each { |collection_name, options|
     collection_config_name options[:collection_config_name]
     action options[:action]
   end
-}
+end

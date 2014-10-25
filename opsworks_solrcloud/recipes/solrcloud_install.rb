@@ -31,7 +31,7 @@ tarball_dir = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
 service 'solr' do
   service_name node['solrcloud']['service_name']
   action :stop
-  only_if { File.exist? "/etc/init.d/#{node['solrcloud']['service_name']}" and not File.exist?(node['solrcloud']['source_dir']) }
+  only_if { File.exist? "/etc/init.d/#{node['solrcloud']['service_name']}" && ! File.exist?(node['solrcloud']['source_dir']) }
 end
 
 # Solr Version Package File
@@ -42,8 +42,8 @@ end
 
 # Extract and Setup Solr Source directories
 bash 'extract_solr_tarball' do
-  user "root"
-  cwd "/tmp"
+  user 'root'
+  cwd '/tmp'
 
   code <<-EOS
     tar xzf #{tarball_file}
@@ -93,7 +93,7 @@ end
  File.join(node['solrcloud']['install_dir'], 'resources'),
  File.join(node['solrcloud']['install_dir'], 'webapps'),
  File.join(node['solrcloud']['install_dir'], 'contexts')
-].each { |dir|
+].each do |dir|
   directory dir do
     owner node['solrcloud']['user']
     group node['solrcloud']['group']
@@ -101,7 +101,7 @@ end
     recursive true
     action :create
   end
-}
+end
 
 # Likely to be removed or changed in future
 directory node['solrcloud']['cores_home'] do
@@ -110,7 +110,7 @@ directory node['solrcloud']['cores_home'] do
   mode 0755
   recursive true
   action :create
-  only_if { node['solrcloud']['cores_home'] and node['solrcloud']['cores_home'] != node['solrcloud']['solr_home'] }
+  only_if { node['solrcloud']['cores_home'] && node['solrcloud']['cores_home'] != node['solrcloud']['solr_home'] }
 end
 
 directory node['solrcloud']['zk_run_data_dir'] do
