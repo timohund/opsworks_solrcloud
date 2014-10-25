@@ -6,7 +6,7 @@ action :setup do
   exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
   Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 
-  servers_and_ports = Zookeeper::Helper.get_server_array(exhibitor_url)
+  servers_and_ports = OpsworksSolrcloud::Zookeeper.get_server_array(exhibitor_url)
   Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
 
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
@@ -20,7 +20,7 @@ action :deployconfig do
   exhibitor_url = "http://#{firsthost['private_dns_name']}:8080/"
   Chef::Log.info("Exhibitor node is #{exhibitor_url}")
 
-  servers_and_ports = Zookeeper::Helper.get_server_array(exhibitor_url)
+  servers_and_ports = OpsworksSolrcloud::Zookeeper.get_server_array(exhibitor_url)
   Chef::Log.info("Using zookeeper hosts string for solr #{servers_and_ports}")
 
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
