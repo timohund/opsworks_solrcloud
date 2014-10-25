@@ -1,3 +1,7 @@
-script: "gem install foodcritic -v 1.1.0 && foodcritic -f any ./opsworks_solrcloud/"
 rvm:
   - 1.9.3
+  - 2.0.0
+  - 2.1
+script:
+ - "gem install foodcritic -v 1.1.0 && foodcritic -f any ./opsworks_solrcloud/"
+ - "gem install rubocop && rubocop"
