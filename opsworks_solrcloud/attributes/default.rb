@@ -27,9 +27,9 @@ node.set['solrcloud']['java_options'] = (node['solrcloud']['java_options'] || []
 
 # we want to put the configSets by our own
 node.set['solrcloud']['manage_zkconfigsets_source'] = false
-node.set['solrcloud']['manage_zkconfigsets']        = false
-node.set['solrcloud']['force_zkconfigsets_upload']  = false
-node.set['solrcloud']['manage_collections']         = false
+node.set['solrcloud']['manage_zkconfigsets'] = false
+node.set['solrcloud']['force_zkconfigsets_upload'] = false
+node.set['solrcloud']['manage_collections'] = false
 
 # on the first cluster node we manage collections and config sets
 if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
@@ -40,9 +40,9 @@ else
   is_first_cluster_node = firsthost['private_ip'] == node['ipaddress']
 
   if is_first_cluster_node
-    node.set['solrcloud']['manage_zkconfigsets']        = true
-    node.set['solrcloud']['force_zkconfigsets_upload']  = true
-    node.set['solrcloud']['manage_collections']         = true
+    node.set['solrcloud']['manage_zkconfigsets'] = true
+    node.set['solrcloud']['force_zkconfigsets_upload'] = true
+    node.set['solrcloud']['manage_collections'] = true
   end
 end
 
@@ -58,10 +58,10 @@ node.set['exhibitor']['log_index_dir'] = '/opt/zookeeper/data/logindex'
 node.set['exhibitor']['install_dir'] = '/usr/local/exhibitor'
 
 node.set['exhibitor']['cli'] = {
-  port: '8080',
-  hostname: node['ipaddress'],
-  configtype: 'file',
-  defaultconfig: "#{node['exhibitor']['install_dir']}/exhibitor.properties"
+    port: '8080',
+    hostname: node['ipaddress'],
+    configtype: 'file',
+    defaultconfig: "#{node['exhibitor']['install_dir']}/exhibitor.properties"
 }
 
 ##########################################
