@@ -48,5 +48,4 @@ node['solrcloud']['collections'].each { |collection_name, options|
     collection_config_name options[:collection_config_name]
     action options[:action]
   end
-
 }

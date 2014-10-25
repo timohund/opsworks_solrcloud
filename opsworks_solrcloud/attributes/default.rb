@@ -8,7 +8,6 @@ default['opsworks_solrcloud']['zkconfigsets']['s3']['remote_path'] = 'mybucket_p
 default['opsworks_solrcloud']['zkconfigsets']['s3']['aws_access_key_id'] = 'mybucket_access_key_id'
 default['opsworks_solrcloud']['zkconfigsets']['s3']['aws_secret_access_key'] = 'myaccess_secet_access_key'
 
-
 ##########################################
 # Set static node attributes for solrcloud
 ##########################################

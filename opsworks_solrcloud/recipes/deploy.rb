@@ -4,7 +4,7 @@ if node['opsworks']['layers']['solrcloud']['instances'].first.nil?
   Chef::Log.info('No first instance for layer solrcloud available skipping deployment')
 else
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
-  #only run on the first cluster node
+  # only run on the first cluster node
   if firsthost['private_ip'] == node['ipaddress']
     opsworks_solrcloud_solr 'Downloading solr configuration' do
       action :getconfig

@@ -1,5 +1,5 @@
 action :setup do
-  #@todo find another way to wait for running zookeeper before installing solr cloud
+  # @todo find another way to wait for running zookeeper before installing solr cloud
   sleep 120
 
   firsthost = node['opsworks']['layers']['solrcloud']['instances'].first[1]
@@ -25,7 +25,7 @@ action :deployconfig do
 
   node.override['solrcloud']['solr_config']['solrcloud']['zk_host'] = servers_and_ports
 
-  Chef::Log.info("Starting deployment of solr configuration")
+  Chef::Log.info('Starting deployment of solr configuration')
   Chef::Log.info("Using jetty context #{node['solrcloud']['jetty_config']['context']['path']}")
   Chef::Log.info("Using solr core admin path #{node['solrcloud']['solr_config']['admin_path']}")
 

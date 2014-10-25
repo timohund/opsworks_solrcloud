@@ -10,7 +10,7 @@ action :setup do
     servers.push("#{hostindex}:#{private_ip}")
   end
 
-  server_specs = servers.join(',');
+  server_specs = servers.join(',')
 
   Chef::Log.info("Using #{server_specs} as exhibitor server_specs")
 
