@@ -31,7 +31,7 @@ tarball_dir = File.join(temp_d, "solr-#{node['solrcloud']['version']}")
 service 'solr' do
   service_name node['solrcloud']['service_name']
   action :stop
-  only_if { File.exist? "/etc/init.d/#{node['solrcloud']['service_name']}" && ! File.exist?(node['solrcloud']['source_dir']) }
+  only_if { (File.exist? "/etc/init.d/#{node['solrcloud']['service_name']}") && (!File.exist?(node['solrcloud']['source_dir'])) }
 end
 
 # Solr Version Package File

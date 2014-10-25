@@ -1,5 +1,3 @@
-AllCops:
-  Excludes:
 AlignParameters:
   Enabled: false
 Encoding:
