@@ -16,7 +16,7 @@ module Zookeeper
         servers_and_ports.push("#{server}:#{port}")
       end
 
-      return servers_and_ports
+      servers_and_ports
     end
   end
 end
