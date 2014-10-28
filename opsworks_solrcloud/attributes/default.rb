@@ -18,6 +18,9 @@ node.set['solrcloud']['jetty_config']['context']['path'] = '/'
 node.set['solrcloud']['solr_config']['admin_path'] = '/admin'
 node.set['solrcloud']['solr_config']['solrcloud']['host_context'] = '/'
 
+# configure zookeeper client timeout
+node.set['solrcloud']['solr_config']['solrcloud']['zk_client_timeout'] = 90000000
+
 # we use zookeeper provided by zookeeper and exhibitor cookbook
 node.set['solrcloud']['zk_run'] = false
 
