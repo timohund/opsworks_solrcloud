@@ -5,5 +5,5 @@ opsworks_solrcloud_zookeeper 'Setting up zookeeper and exhibitor' do
 end
 
 opsworks_solrcloud_solr 'Setting up solr cloud' do
-  action :setup
+  action [:setup, :restart]
 end
