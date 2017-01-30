@@ -1,33 +1,60 @@
 ++++++++++++++++++++++++
-Solr cloud cookbook for AWS OpsWorks
+SolrCloud cookbook for AWS OpsWorks
 ++++++++++++++++++++++++
 
 :Author: AOE <dev@aoe.com>
 :Author: Timo Schmidt
 :Author: Nikolay Diaur
 :Author: Michael Klapper
-:Description: Cookbook to install solrcloud on an aws opsworks stack
+:Description: Cookbook to install SolrCloud on an AWS OpsWorks stack
 :Build status: |buildStatusIcon|
 
 Foreword
 ========================
 
-This cookbook can be used to install SolrCloud on an aws OpsWorks stack.
+This cookbook can be used to install SolrCloud on an AWS OpsWorks stack.
 
-It uses the solrcloud cookbooks to install solr in a cloud mode with an external zookeeper service.
-By now we install zookeeper on each node and use exhibitor to discover the zookeeper instances
-with our chef cookbook
+It uses multiple community cookbooks to install a copy of
+
+* SolrCloud, which does some nifty document searching
+* ZooKeeper, which holds configuration information for and helps network SolrCloud
+* Exhibitor, which helps visualize ZooKeeper instances
+
+on each node.
 
 What do i need to configure?
 ========================
 
 You need to:
 
-1. Create a new stack with the name "solrcloud"
+1. Create a tarball containing your SolrCloud configuration files, namespacing each Collection's
+   config files within their own folder. I.e. if you had two collections called "example1" and "example2",
+   your file might look like:
 
-    * Enable "Manage Berkshelf" (to enable the evaluation of Berksfile)
+::
+
+  configs.tar.gz
+     example1_config/
+         conf/
+             solrconfig.xml
+             schema.xml
+             ... etc ...
+     example2_config/
+         conf/
+             solrconfig.xml
+             schema.xml
+             ... etc ...
+
+::
+
+Upload this file to S3 and create the IAM credentials SolrCloud should fetch it with.
+IAM Role-based authentication is not yet supported by the underlying s3_file resource.
+
+2. Create a new stack (easiest) or modify an existing stack
+    * Enable "Use Custom Cookbooks" and either point to this repo or include it in your own
+    * Enable "Manage Berkshelf" (to enable the evaluation of the included Berksfile)
     * Use Berkshelf version 3.1.3
-    * Add custom stack json configuration:
+    * Add this below to your custom stack json configuration:
 
 ::
 
@@ -67,9 +94,9 @@ You need to:
     }
 ::
 
-With the configuration above you will get a tarball from an s3 bucket, that needs to contain the solr configuration
-for each configset. The "zkconfigsets" and "collections" configuration is used by the solrcloud cookbook
-to upload the configuration to zookeeper.
+The opsworks_solrcloud block specifies the S3 bucket location of the initial config
+tarball and the credentials to fetch it with. The solrcloud "zkconfigsets" and "collections" blocks specify
+which configs to upload to ZooKeeper when running the deploy recipe.
 
 Example:
 
@@ -111,31 +138,18 @@ Example:
 ::
 
 
-The tar.gz file that can be used with this setup needs to have the following structure:
-
-::
-
-"exampleconfig" (contains the solr configuration for the example collection)
-    "conf"
-        solrconfig.xml ...
-
-::
-
 2. Create a custom layer with the name "solrcloud"
-    * Include the git repository as custom chef recipes
-    * Map the custom recipes to the events:
+    * Map the custom recipes provided by this repo to the events:
         * Setup: opsworks_solrcloud::setup
         * Configure: opsworks_solrcloud::configure
         * Deploy: opsworks_solrcloud::deploy
         * Undeploy: opsworks_solrcloud::undeploy
 
+3. Once you have your first instance up and running, either deploy any app to it or manually run the
+   opsworks_solrcloud::deploy recipe to fetch and apply the initial configuration from S3 to ZooKeeper.
 
-Notes
-========================
-
-By now we use the first node in the cluster as exhibitor endpoint to
-retrieve all active zookeeper nodes. It might make sence to run zookeeper and exhibitor
-on another stack and support this in this cookbook.
+You're now ready to setup your SolrCloud cores, create new instances and watch
+ZooKeeper sync, then create more cores there, etc.
 
 How can i access the solr server and zookeeper?
 ========================
@@ -146,7 +160,7 @@ http://anyclusternode:8080/exhibitor/v1/ui/index.html
 
 to access the ui of the exhibitor, which is used to manage the zookeeper instances.
 
-When the cookbook was executed successful you should also be able to access solr cloud with one
+When the cookbook was executed successfully you should also be able to access solr cloud with one
 of the cluster hostname
 
 e.g:
@@ -155,6 +169,13 @@ http://anyclusternode:8983/solr/
 
 and your elastic load balancer should could also be configured to load balance requests to this port
 to all active instances.
+
+Notes
+========================
+
+We currently use the first node in the cluster as exhibitor endpoint to
+retrieve all active zookeeper nodes. It might make sense to run zookeeper and exhibitor
+on another stack and support this in this cookbook.
 
 Resources
 ========================
